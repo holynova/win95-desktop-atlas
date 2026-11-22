@@ -4,6 +4,6 @@
   "private": true,
   "description": "Ten Windows 95 layout studies with an illustrated comparison guide",
   "scripts": {
-    "check": "node --check dist/desktop.js && node scripts/check-pages.mjs"
+    "check": "node --check dist/atlas-v2.js && node scripts/check-pages.mjs"
   }
 }
