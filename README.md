@@ -1,6 +1,6 @@
 # Win95 Desktop Atlas
 
-[中文说明](README.zh-CN.md) · [GitHub repository](https://github.com/holynova/win95-desktop-atlas) · [Cloudflare demo](https://win95-desktop-atlas.xiaosang.cc/) (domain verification pending)
+[中文说明](README.zh-CN.md) · [GitHub repository](https://github.com/holynova/win95-desktop-atlas) · [Cloudflare demo](https://win95-desktop-atlas.xiaosang.cc/)
 
 Eight fictional creative studios share a Windows 95 desktop. Open **Start** to visit a different studio. The screenshot shows a mountain stamp after its first postmark.
 

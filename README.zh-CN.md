@@ -1,6 +1,6 @@
 # Windows 95 桌面图鉴
 
-[English](README.md) · [GitHub 仓库](https://github.com/holynova/win95-desktop-atlas) · [Cloudflare 演示](https://win95-desktop-atlas.xiaosang.cc/)（域名待验证）
+[English](README.md) · [GitHub 仓库](https://github.com/holynova/win95-desktop-atlas) · [Cloudflare 演示](https://win95-desktop-atlas.xiaosang.cc/)
 
 八间虚构的创作工作室共用一个 Windows 95 桌面。从「开始」菜单进入任意主题，下图是旅行邮局为一枚山地邮票盖戳后的画面。
 
