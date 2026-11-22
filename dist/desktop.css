@@ -140,3 +140,5 @@ dialog::backdrop{background:#061c1c70}
 .night .card-caption small,.night .collection header>span{color:#cccfc7}
 @media(min-width:801px){.kiln .hero,.post .hero{grid-template-columns:1.05fr .95fr}.kiln .hero-copy,.post .hero-copy{order:2;padding-right:24px}.kiln .specimen,.post .specimen{margin-left:16px;margin-right:0}}
 @media(max-width:600px){.atelier h1{font-size:clamp(3.3rem,11.7vw,4.6rem)}.specimen{align-self:stretch;margin:4px 12px 12px}.taskbar nav a:not([aria-current]){display:none}.taskbar nav a[aria-current]{display:flex}.taskbar nav:after{content:"";flex:1}.start{white-space:nowrap}.repo-link{padding:4px}.taskbar .start{padding-right:10px}.shortcuts{flex-wrap:wrap}.specimen-caption{font-size:.8rem}}
+.mobile-themes{display:none}
+@media(max-width:600px){.mobile-themes{display:inline;font-weight:400}}
