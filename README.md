@@ -2,20 +2,18 @@
 
 [中文说明](README.zh-CN.md) · [GitHub repository](https://github.com/holynova/win95-desktop-atlas) · [Cloudflare demo](https://win95-desktop-atlas.xiaosang.cc/)
 
-Eight fictional creative studios share a Windows 95 desktop. Open **Start** to visit a different studio. The screenshot shows a mountain stamp after its first postmark.
+Ten editorial and interface layouts share the window chrome of Windows 95. The index presents real previews and a comparison of reading order, suitable material and limitations. Pick a layout by what the reader needs to do.
 
-![Post Club with a hand-stamped mountain design and the eight-theme taskbar](assets/screenshot.png)
+![The layout atlas with previews of contrasting compositions](assets/screenshot.png)
 
-| Desk | Try it |
+| Reading task | Examples |
 | --- | --- |
-| Orbit Office | Open a poster and use the arrow keys to browse the series. |
-| Still Frame | Read the composition notes for three city photographs. |
-| Soft Signal | Play three original electronic sketches on a compact disc player. |
-| Field Notes | Magnify a fern, a fan leaf or a lance-shaped leaf. |
-| Fold Works | Compare architectural models with their floor plans. |
-| Kiln Room | Change the glaze while keeping the vessel and lighting fixed. |
-| Post Club | Stamp a travel postage design, then inspect its mint condition. |
-| Night Atlas | Hide the constellation lines and find the outlines again. |
+| Read in sequence | Narrow-column field essay, timestamped postal log |
+| Look closely | Typographic poster, asymmetric photo wall, paired architectural drawings |
+| Connect pictures and words | Print magazine spread, collectible stamp cards, annotated star map |
+| Compare and operate | Ceramics matrix, master–detail audio library |
+
+Compare the same printed material in the poster and magazine. Visit the stamp catalogue and its production timeline to see how a collection becomes a story. Each example includes layout notes.
 
 ## Run locally
 
@@ -26,7 +24,7 @@ npm run check
 python3 -m http.server 8000 --directory dist
 ```
 
-Open `http://localhost:8000`. All samples, photos and audio are served from `dist/assets`. The city photographs come from Unsplash. The collaboration form downloads a text file locally.
+Open `http://localhost:8000`. All samples, photos and audio are served from `dist/assets`. The city photographs come from Unsplash.
 
 ## Publish
 

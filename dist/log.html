@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>一张邮票的行程 · 纵向时间线</title>
+    <meta name="description" content="时间做定位，节点承载事件；沿一条竖线就能读出先后。" />
+    <link rel="icon" href="assets/computer.png" />
+    <link rel="stylesheet" href="desktop.css" />
+    <script defer src="desktop.js"></script>
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="e01c9f78-4607-4e60-b01c-77c8190b12b4"
+    ></script>
+  </head>
+  <body class="desk-log">
+    <a class="skip" href="#content">跳至内容</a>
+    <main class="window">
+      <header class="titlebar">
+        <img src="assets/computer.png" alt="" class="pixel" /><b>一张邮票的行程 · 纵向时间线</b
+        ><span>Atlas.exe</span>
+      </header>
+      <nav class="menubar" aria-label="图鉴导航">
+        <a href="index.html">版式总览</a
+        ><button data-menu aria-expanded="false" aria-controls="switcher">切换版式 ▾</button
+        ><a href="post.html">同一枚邮票 · 看卡片目录</a
+        ><a class="github" href="https://github.com/holynova/win95-desktop-atlas">GitHub</a>
+      </nav>
+      <div id="content" tabindex="-1">
+        <section class="dispatch">
+          <header>
+            <p class="rubric">POST CLUB　/　发行日值班日志</p>
+            <h1>一枚邮票的<br />工作日</h1>
+            <p>从清晨的画稿，到傍晚的最后一班邮路。</p>
+          </header>
+          <ol class="timeline">
+            <li>
+              <time>08:10</time>
+              <article>
+                <h2>画稿</h2>
+                <p>海岸从一条水平线开始。灯塔要留白，海面只留三层波纹；缩到指甲大小，仍能认出它是海岸。</p>
+              </article>
+            </li>
+            <li>
+              <time>10:40</time>
+              <article>
+                <h2>打样</h2>
+                <p>
+                  第一张印样的塔身太细，贴到信封角上就看不清了。把轮廓加宽，再把外框向内移一点，给齿孔留出呼吸。
+                </p>
+              </article>
+            </li>
+            <li>
+              <time>14:25</time>
+              <article>
+                <h2>分拣</h2>
+                <p>
+                  票面印好后才开始分张。对着窗口的光检查齿孔，挑出一枚留在样本册里，另一枚贴上寄往山里的明信片。
+                </p>
+              </article>
+            </li>
+            <li>
+              <time>17:05</time>
+              <article>
+                <h2>盖销</h2>
+                <p>邮戳落在右侧，横跨票面和信封。这个小圆圈盖下去，印刷品多了一层旅程的证据。</p>
+                <img src="assets/post-1-alt.webp" alt="完成盖销的海岸邮票" class="" />
+              </article>
+            </li>
+          </ol>
+        </section>
+      </div>
+      <details class="study-guide">
+        <summary>版式笔记 · 纵向时间线</summary>
+        <dl>
+          <div>
+            <dt>阅读顺序</dt>
+            <dd>时间做定位，节点承载事件；沿一条竖线就能读出先后。</dd>
+          </div>
+          <div>
+            <dt>适用内容</dt>
+            <dd>制作日志、版本记录、物流过程</dd>
+          </div>
+          <div>
+            <dt>使用边界</dt>
+            <dd>节点要有真实的先后关系，同时发生的资料不宜硬排成一列。</dd>
+          </div>
+        </dl>
+      </details>
+      <div class="status"><span>文字为主　/　一张邮票的行程</span><span>v2.0.0</span></div>
+    </main>
+    <nav id="switcher" aria-label="所有版式" hidden>
+      <b>Windows 95 版式图鉴</b><a href="index.html">全部版式</a
+      ><a href="orbit.html">单焦点海报<small>轨道设计季</small></a
+      ><a href="field.html">长文单栏<small>一片叶子的三次观察</small></a
+      ><a href="frame.html">非对称影墙<small>从街面到河岸</small></a
+      ><a href="press.html">杂志图文混排<small>油墨经过的地方</small></a
+      ><a href="post.html">卡片目录<small>沿途邮局</small></a
+      ><a href="plan.html">双联对照<small>房子的两种看法</small></a
+      ><a href="kiln.html">属性矩阵<small>窑房器形表</small></a
+      ><a href="signal.html">主从列表<small>夜班试听台</small></a
+      ><a href="log.html" aria-current="page">纵向时间线<small>一张邮票的行程</small></a
+      ><a href="night.html">空间标注图<small>五颗星的位置</small></a>
+    </nav>
+    <footer class="taskbar">
+      <button class="start" data-menu aria-expanded="false" aria-controls="switcher">
+        <img src="assets/flag.png" alt="" class="pixel" />开始</button
+      ><a class="task" href="index.html"><img src="assets/folder.png" alt="" class="pixel" />纵向时间线</a
+      ><span class="spacer"></span><a class="step" href="signal.html">上一版</a
+      ><a class="step" href="night.html">下一版</a><time id="clock"></time>
+    </footer>
+    <dialog id="viewer" aria-labelledby="viewer-title">
+      <div class="titlebar">
+        <b id="viewer-title">图片查看器</b><button id="close" aria-label="关闭窗口">×</button>
+      </div>
+      <img id="full" alt="" />
+      <p id="caption"></p>
+      <button id="change-stamp" hidden>切换票态</button>
+    </dialog>
+  </body>
+</html>

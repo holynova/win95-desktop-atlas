@@ -1,142 +1,261 @@
-'use strict';
-const data = JSON.parse(document.querySelector('#data').textContent);
-const viewer = document.querySelector('#viewer');
-const body = document.querySelector('.dialog-body');
-const dialogTitle = document.querySelector('#dialog-title');
-const start = document.querySelector('.start');
-const startMenu = document.querySelector('#startmenu');
-const audio = document.querySelector('#audio');
-let currentTrack = 0;
-let currentWork = 0;
+"use strict";
 
-function toggleStart(open) {
-  startMenu.hidden = !open;
-  start.setAttribute('aria-expanded', String(open));
+const $ = (selector) => document.querySelector(selector);
+const all = (selector) => [...document.querySelectorAll(selector)];
+const menu = $("#switcher");
+let opener;
+
+function showMenu(open, button) {
+  menu.hidden = !open;
+  for (const trigger of all("[data-menu]")) trigger.setAttribute("aria-expanded", String(open));
+  if (!open) return;
+  opener = button;
+  const bar = button.closest(".menubar");
+  menu.style.bottom = bar ? "auto" : "42px";
+  menu.style.top = bar
+    ? Math.max(0, Math.min(innerHeight - menu.offsetHeight - 6, button.getBoundingClientRect().bottom)) + "px"
+    : "auto";
+  menu.style.left = bar
+    ? Math.max(0, Math.min(innerWidth - menu.offsetWidth - 4, button.getBoundingClientRect().left)) + "px"
+    : "6px";
+  (menu.querySelector("[aria-current]") || menu.querySelector("a")).focus();
 }
-function showWindow(id) {
-  const window = document.getElementById(id);
-  document.querySelectorAll('.expanded').forEach(item => setExpanded(item, false));
-  window.hidden = false;
-  window.scrollIntoView({ block: 'start' });
-}
-function setExpanded(window, on) {
-  window.classList.toggle('expanded', on);
-  const button = window.querySelector('[data-max]');
-  button.setAttribute('aria-pressed', String(on));
-  button.title = on ? '还原窗口' : '最大化';
-}
-function dialog(title, html) {
-  dialogTitle.textContent = title;
-  body.innerHTML = html;
-  viewer.setAttribute('aria-labelledby', 'dialog-title');
-  if (!viewer.open) viewer.showModal();
-  viewer.scrollTop = 0;
-}
-function showWork(index) {
-  currentWork = (index + data.works.length) % data.works.length;
-  const [name, kind, pic, description] = data.works[currentWork];
-  const sound = audio ? '<button class="raised audio-link" data-listen>在播放器中试听</button>' : '';
-  dialog(name + ' — 作品查看器', `<img class="dialog-art" src="assets/${pic}" alt="${name}"><h2 lang="en">${name}</h2><strong>${kind}</strong><p>${description}</p>${sound}<hr><div class="controls"><button class="raised" data-step="-1">上一件</button><span>${currentWork + 1} / ${data.works.length}</span><button class="raised" data-step="1">下一件</button></div>`);
-}
-function showContact() {
-  dialog('联系 — 合作简报.txt', `<h2>合作简报</h2><p>写下想和 ${data.name} 一起做的项目。示例会把简报保存为本地文本。</p><form><label>你的称呼<input name="author" required maxlength="80" autocomplete="name"></label><label>项目想法<textarea name="idea" required maxlength="4000"></textarea></label><button type="submit" class="raised">保存简报.txt</button><output aria-live="polite"></output></form>`);
-  const form = body.querySelector('form');
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    const fields = new FormData(form);
-    const note = [data.name + ' · 合作简报', fields.get('author'), '', fields.get('idea')].join('\n');
-    const url = URL.createObjectURL(new Blob(['\ufeff' + note], {type:'text/plain;charset=utf-8'}));
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = data.name + '-合作简报.txt';
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 5000);
-    form.querySelector('output').textContent = '简报已生成。';
-  });
-}
-function act(action) {
-  if (action === 'home' || action === 'works') showWindow(action);
-  if (action === 'about') dialog('关于 — Readme.txt', '<h2>' + data.name + '</h2><p>' + data.about + '</p>');
-  if (action === 'services') dialog(data.modes ? '操作 — Guide.txt' : '服务 — Services.txt', (data.modes ? '<h2>操作指南</h2><dl>' : '<h2>工作范围</h2><dl>') + data.services.map(([title,copy]) => '<dt>' + title + '</dt><dd>' + copy + '</dd>').join('') + '</dl>');
-  if (action === 'contact') showContact();
-  if (action === 'firstsong') {
-    if (currentTrack === 0 && !audio.paused) audio.pause();
-    else playTrack(0);
-  }
-}
-function time(seconds) {
-  const total = Math.max(0, Math.floor(seconds || 0));
-  return Math.floor(total / 60) + ':' + String(total % 60).padStart(2,'0');
-}
-function playerState() {
-  const playing = !audio.paused && !audio.ended;
-  const play = document.querySelector('#play');
-  play.textContent = playing ? 'Ⅱ' : '▶';
-  play.setAttribute('aria-label', (playing ? '暂停 ' : '播放 ') + data.works[currentTrack][0]);
-  document.querySelector('[data-action="firstsong"]').lastChild.textContent = playing && currentTrack === 0 ? '暂停第一首' : '播放第一首';
-  const elapsed = document.querySelector('#elapsed');
-  elapsed.textContent = time(audio.currentTime) + ' / ' + (Number.isFinite(audio.duration) ? time(Math.round(audio.duration)) : data.works[currentTrack][1].split(' / ')[1]);
-}
-async function playTrack(index) {
-  if (currentTrack !== index) {
-    currentTrack = index;
-    audio.src = 'assets/track' + (index + 1) + '.mp3';
-  }
-  document.querySelector('#songname').textContent = data.works[index][0];
-  document.querySelector('#album').src = 'assets/' + data.works[index][2];
-  try { await audio.play(); }
-  catch (error) {
-    if (error.name !== 'AbortError') document.querySelector('#elapsed').textContent = '请点击重试';
-  }
-}
-if (audio) {
-  ['timeupdate','loadedmetadata','play','pause','ended'].forEach(type => audio.addEventListener(type, playerState));
-  document.querySelector('#play').addEventListener('click', () => audio.paused ? playTrack(currentTrack) : audio.pause());
-  document.querySelector('#nextsong').addEventListener('click', () => playTrack((currentTrack + 1) % data.works.length));
-}
-start.addEventListener('click', () => toggleStart(startMenu.hidden));
-document.addEventListener('click', event => {
-  const target = event.target.closest('button,a');
-  if (!start.contains(event.target)) toggleStart(false);
-  if (!target) {
-    if (event.target === viewer) {
-      const {left,right,top,bottom} = viewer.getBoundingClientRect();
-      if (event.clientX < left || event.clientX > right || event.clientY < top || event.clientY > bottom) viewer.close();
-    }
-    return;
-  }
-  if (target.matches('[data-action]')) act(target.dataset.action);
-  if (target.matches('[data-work]')) showWork(Number(target.dataset.work));
-  if (target.matches('[data-step]')) showWork(currentWork + Number(target.dataset.step));
-  if (target.matches('.close')) viewer.close();
-  if (target.matches('[data-hide]')) {
-    const window = document.getElementById(target.dataset.hide);
-    setExpanded(window,false);
-    window.hidden = true;
-    start.focus();
-  }
-  if (target.matches('[data-max]')) {
-    const window = document.getElementById(target.dataset.max);
-    setExpanded(window,!window.classList.contains('expanded'));
-  }
-  if (target.matches('[data-listen]')) {
-    viewer.close();
-    showWindow('home');
-    playTrack(currentWork);
-  }
+
+for (const trigger of all("[data-menu]"))
+  trigger.addEventListener("click", () => showMenu(menu.hidden, trigger));
+document.addEventListener("click", (event) => {
+  if (!event.target.closest("[data-menu], #switcher")) showMenu(false);
 });
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && !viewer.open) {
-    if (!startMenu.hidden) { toggleStart(false); start.focus(); }
-    document.querySelectorAll('.expanded').forEach(item => setExpanded(item,false));
-  }
-  if (viewer.open && body.querySelector('[data-step]') && ['ArrowLeft','ArrowRight'].includes(event.key)) {
-    event.preventDefault();
-    showWork(currentWork + (event.key === 'ArrowLeft' ? -1 : 1));
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !menu.hidden) {
+    showMenu(false);
+    opener.focus();
   }
 });
 function clock() {
-  document.querySelector('#clock').textContent = new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit',hour12:false});
+  $("#clock").textContent = new Date().toLocaleTimeString("zh-CN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
 }
 clock();
 setInterval(clock, 15000);
+
+function setChoice(buttons, selected) {
+  buttons.forEach((button) => button.setAttribute("aria-pressed", String(button === selected)));
+}
+
+if ($("#atlas-cards")) {
+  const filters = all("[data-group-filter]");
+  filters.forEach((button) =>
+    button.addEventListener("click", () => {
+      const group = button.textContent;
+      setChoice(filters, button);
+      for (const item of all("[data-group]")) item.hidden = group !== "全部" && item.dataset.group !== group;
+      $("#result-count").textContent = all(".atlas-card:not([hidden])").length + " 种版式";
+    }),
+  );
+  const toggle = $(".view-switch");
+  function showComparison(showTable) {
+    $("#atlas-cards").hidden = showTable;
+    $("#comparison").hidden = !showTable;
+    toggle.textContent = showTable ? "返回缩略图" : "特性对照表";
+    toggle.setAttribute("aria-pressed", String(showTable));
+  }
+  function readView() {
+    showComparison(location.hash === "#compare");
+  }
+  toggle.addEventListener("click", () => {
+    const url = new URL(location.href);
+    url.hash = $("#comparison").hidden ? "compare" : "";
+    history.pushState(null, "", url);
+    readView();
+  });
+  window.addEventListener("popstate", readView);
+  window.addEventListener("hashchange", readView);
+  readView();
+}
+
+const viewer = $("#viewer");
+const stampNames = ["海岸邮路", "山地邮路", "城市邮路"];
+let stampIndex = 0;
+let cancelled = false;
+let zoomSource;
+function view(src, title) {
+  $("#full").src = src;
+  $("#full").alt = title;
+  $("#viewer-title").textContent = title;
+  $("#caption").textContent = title;
+  if (!viewer.open) viewer.showModal();
+}
+function zoom(button) {
+  zoomSource = button;
+  $("#change-stamp").hidden = true;
+  view(button.querySelector("img").src, button.closest("figure").querySelector("figcaption").textContent);
+}
+all("[data-zoom]").forEach((button) => button.addEventListener("click", () => zoom(button)));
+viewer.addEventListener("keydown", (event) => {
+  if (!zoomSource || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+  event.preventDefault();
+  const buttons = all("[data-zoom]");
+  const index =
+    (buttons.indexOf(zoomSource) + (event.key === "ArrowRight" ? 1 : -1) + buttons.length) % buttons.length;
+  zoom(buttons[index]);
+});
+$("#close").addEventListener("click", () => viewer.close());
+
+function displayStamp() {
+  zoomSource = null;
+  const button = $("#change-stamp");
+  button.hidden = false;
+  button.textContent = cancelled ? "查看新票" : "盖上邮戳";
+  view(
+    "assets/post-" + stampIndex + (cancelled ? "-alt" : "") + ".webp",
+    stampNames[stampIndex - 1] + (cancelled ? " · 盖销票" : " · 新票"),
+  );
+}
+all("[data-stamp]").forEach((button) =>
+  button.addEventListener("click", () => {
+    stampIndex = Number(button.dataset.stamp);
+    cancelled = button.dataset.condition === "2";
+    displayStamp();
+  }),
+);
+$("#change-stamp").addEventListener("click", () => {
+  cancelled = !cancelled;
+  displayStamp();
+});
+const stampFilters = all("[data-stamp-filter]");
+stampFilters.forEach((button) =>
+  button.addEventListener("click", () => {
+    setChoice(stampFilters, button);
+    for (const card of all("[data-condition]"))
+      card.hidden =
+        button.dataset.stampFilter !== "0" && button.dataset.stampFilter !== card.dataset.condition;
+    $("#stamp-count").textContent = all("[data-condition]:not([hidden])").length + " 枚票样";
+  }),
+);
+
+$("#plan-picker")?.addEventListener("change", (event) => {
+  const select = event.target;
+  const name = select.selectedOptions[0].textContent;
+  const path = "assets/plan-" + select.value;
+  $(".axa").src = path + ".webp";
+  $(".flat").src = path + "-alt.webp";
+  $(".axa").alt = name + "轴测图";
+  $(".flat").alt = name + "平面图";
+  $("#plan-note").textContent = [
+    "短翼贴在主屋侧面。左图能看出两翼等高，右图则能看清入口为什么藏在转角处。",
+    "左右两翼伸向庭院。先在平面图上找到开口，再回到轴测图看两翼的高度。",
+    "三层体量逐层退后。平面图上套叠的矩形，在轴测图里变成三道台地。",
+  ][select.selectedIndex];
+});
+$("#glaze")?.addEventListener("change", (event) => {
+  $("#test-glazes").hidden = !event.target.checked;
+});
+
+const tracks = all(".track");
+tracks.forEach((button, index) =>
+  button.addEventListener("click", () => {
+    const audio = $("audio");
+    if (button.getAttribute("aria-pressed") === "true") return;
+    const playing = !audio.paused;
+    setChoice(tracks, button);
+    const title = ["Echo Buffer", "Sync Drift", "Dawn Carrier"][index];
+    $("#song").textContent = title;
+    $("#tempo").textContent = [96, 114, 80][index] + " BPM";
+    $(".disc").src = "assets/disc" + (index + 1) + ".png";
+    $(".disc").alt = title + " 虹彩光盘";
+    $("#listen-note").textContent = [
+      "留意低音后的空拍。高处的八音循环再绕回来时，像给同一段街灯换了一个角度。",
+      "一层细碎的琶音紧贴鼓点，低音偶尔错开半步。试着只听下面那条线。",
+      "旋律放慢后，每粒音的尾巴都听得更清楚。等最后一个和弦消散，再倒回开头。",
+    ][index];
+    audio.src = "assets/track" + (index + 1) + ".mp3";
+    if (playing)
+      audio.play().catch(() => {
+        /* Native controls remain available. */
+      });
+  }),
+);
+
+if ($("#sky-picker")) {
+  const charts = [
+    {
+      xy: [
+        [222, 180],
+        [277, 259],
+        [345, 177],
+        [403, 256],
+        [476, 164],
+      ],
+      notes: [
+        "从折线左端起步。视线顺着第一段向右下方移动，到达第一个转折。",
+        "低处的转折把视线送往中央的峰顶。",
+        "中央高点连接左右两段折线。遮住连线，试着向两边各找到一颗邻星。",
+        "第二个低谷。与 B 点并置时，双折线的节奏最明显。",
+        "折线右端。从这里倒着走一遍，仍能认出五点的轮廓。",
+      ],
+    },
+    {
+      xy: [
+        [279, 175],
+        [352, 222],
+        [437, 280],
+        [391, 147],
+        [301, 300],
+      ],
+      notes: [
+        "从这端沿长轴寻找交会点。",
+        "十字骨架在这里相交，可以选择继续直行或转向侧翼。",
+        "长轴的另一端与中央点保持对角关系。",
+        "一侧翼尖从中心向右上方伸出。",
+        "另一侧翼尖落在中心的左下方。",
+      ],
+    },
+    {
+      xy: [
+        [282, 151],
+        [334, 213],
+        [391, 192],
+        [440, 273],
+        [377, 292],
+      ],
+      notes: [
+        "单独伸出的亮点，是进入小四边形的起点。",
+        "外伸的亮点在这里接上四边形。",
+        "循着四边形的上边找到第二个角。",
+        "右侧转角把视线引回较低的一条边。",
+        "沿最后一条边回到 B 点，轮廓就闭合了。",
+      ],
+    },
+  ];
+  let selected = 0;
+  const pins = all(".pin");
+  function chart() {
+    const picker = $("#sky-picker");
+    const current = charts[picker.selectedIndex];
+    const lines = $("#lines").checked;
+    $(".sky-img").src = "assets/night-" + picker.value + (lines ? "" : "-alt") + ".webp";
+    $(".sky-img").alt = picker.selectedOptions[0].textContent + (lines ? "连线示意图" : "裸星示意图");
+    pins.forEach((pin, i) => {
+      pin.style.left = (current.xy[i][0] / 720) * 100 + "%";
+      pin.style.top = (current.xy[i][1] / 480) * 100 + "%";
+    });
+    setChoice(pins, pins[selected]);
+    $("#pin-name").textContent = "星点 " + pins[selected].textContent;
+    $("#pin-note").textContent = current.notes[selected];
+  }
+  pins.forEach((pin, i) =>
+    pin.addEventListener("click", () => {
+      selected = i;
+      chart();
+    }),
+  );
+  $("#sky-picker").addEventListener("change", () => {
+    selected = 0;
+    chart();
+  });
+  $("#lines").addEventListener("change", chart);
+}

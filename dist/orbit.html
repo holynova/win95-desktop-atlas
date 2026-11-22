@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>轨道设计季 · 单焦点海报</title>
+    <meta name="description" content="巨型字标与轨道图形共用一张画布，日期和介质压进底边。" />
+    <link rel="icon" href="assets/computer.png" />
+    <link rel="stylesheet" href="desktop.css" />
+    <script defer src="desktop.js"></script>
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="e01c9f78-4607-4e60-b01c-77c8190b12b4"
+    ></script>
+  </head>
+  <body class="desk-orbit">
+    <a class="skip" href="#content">跳至内容</a>
+    <main class="window">
+      <header class="titlebar">
+        <img src="assets/computer.png" alt="" class="pixel" /><b>轨道设计季 · 单焦点海报</b
+        ><span>Atlas.exe</span>
+      </header>
+      <nav class="menubar" aria-label="图鉴导航">
+        <a href="index.html">版式总览</a
+        ><button data-menu aria-expanded="false" aria-controls="switcher">切换版式 ▾</button
+        ><a href="press.html">同一组印样 · 看杂志排法</a
+        ><a class="github" href="https://github.com/holynova/win95-desktop-atlas">GitHub</a>
+      </nav>
+      <div id="content" tabindex="-1">
+        <div class="poster-page">
+          <div class="poster-print">
+            <div class="poster-mast"><b>ORBIT OFFICE</b><span>平面设计季 · 系列海报</span></div>
+            <h1>ORBITAL<br /><em>SEASON</em></h1>
+            <img src="assets/orbit.png" alt="青绿色像素地球与环绕轨道" class="globe" />
+            <div class="poster-foot">
+              <b>轨道季</b><span>图形研究<br />专色印刷 / 三幅一组</span>
+            </div>
+          </div>
+          <div class="proofs">
+            <h2>印样夹</h2>
+            <figure class="">
+              <button class="zoom" data-zoom aria-label="放大：轨道 · 椭圆">
+                <img src="assets/poster1.png" alt="轨道 · 椭圆" class="" />
+              </button>
+              <figcaption>轨道 · 椭圆</figcaption>
+            </figure>
+            <figure class="">
+              <button class="zoom" data-zoom aria-label="放大：构成 · 直角">
+                <img src="assets/poster2.png" alt="构成 · 直角" class="" />
+              </button>
+              <figcaption>构成 · 直角</figcaption>
+            </figure>
+            <figure class="">
+              <button class="zoom" data-zoom aria-label="放大：印痕 · 错位">
+                <img src="assets/poster3.png" alt="印痕 · 错位" class="" />
+              </button>
+              <figcaption>印痕 · 错位</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <details class="study-guide">
+        <summary>版式笔记 · 单焦点海报</summary>
+        <dl>
+          <div>
+            <dt>阅读顺序</dt>
+            <dd>巨型字标与轨道图形共用一张画布，日期和介质压进底边。</dd>
+          </div>
+          <div>
+            <dt>适用内容</dt>
+            <dd>开幕预告、唱片首发、单件作品封面</dd>
+          </div>
+          <div>
+            <dt>使用边界</dt>
+            <dd>主信息只能有一个。长说明放进底边的作品签，避免争抢视线。</dd>
+          </div>
+        </dl>
+      </details>
+      <div class="status"><span>图片为主　/　轨道设计季</span><span>v2.0.0</span></div>
+    </main>
+    <nav id="switcher" aria-label="所有版式" hidden>
+      <b>Windows 95 版式图鉴</b><a href="index.html">全部版式</a
+      ><a href="orbit.html" aria-current="page">单焦点海报<small>轨道设计季</small></a
+      ><a href="field.html">长文单栏<small>一片叶子的三次观察</small></a
+      ><a href="frame.html">非对称影墙<small>从街面到河岸</small></a
+      ><a href="press.html">杂志图文混排<small>油墨经过的地方</small></a
+      ><a href="post.html">卡片目录<small>沿途邮局</small></a
+      ><a href="plan.html">双联对照<small>房子的两种看法</small></a
+      ><a href="kiln.html">属性矩阵<small>窑房器形表</small></a
+      ><a href="signal.html">主从列表<small>夜班试听台</small></a
+      ><a href="log.html">纵向时间线<small>一张邮票的行程</small></a
+      ><a href="night.html">空间标注图<small>五颗星的位置</small></a>
+    </nav>
+    <footer class="taskbar">
+      <button class="start" data-menu aria-expanded="false" aria-controls="switcher">
+        <img src="assets/flag.png" alt="" class="pixel" />开始</button
+      ><a class="task" href="index.html"><img src="assets/folder.png" alt="" class="pixel" />单焦点海报</a
+      ><span class="spacer"></span><a class="step" href="night.html">上一版</a
+      ><a class="step" href="field.html">下一版</a><time id="clock"></time>
+    </footer>
+    <dialog id="viewer" aria-labelledby="viewer-title">
+      <div class="titlebar">
+        <b id="viewer-title">图片查看器</b><button id="close" aria-label="关闭窗口">×</button>
+      </div>
+      <img id="full" alt="" />
+      <p id="caption"></p>
+      <button id="change-stamp" hidden>切换票态</button>
+    </dialog>
+  </body>
+</html>
