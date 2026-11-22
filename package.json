@@ -1,9 +1,9 @@
 {
   "name": "win95-desktop-atlas",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "description": "Ten Windows 95 layout studies with an illustrated comparison guide",
   "scripts": {
-    "check": "node --check dist/atlas-v2.js && node scripts/check-pages.mjs"
+    "check": "node --check dist/atlas-2.1.js && node scripts/check-pages.mjs"
   }
 }

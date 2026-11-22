@@ -11,7 +11,7 @@ function showMenu(open, button) {
   if (!open) return;
   opener = button;
   const bar = button.closest(".menubar");
-  menu.style.bottom = bar ? "auto" : "42px";
+  menu.style.bottom = bar ? "auto" : "var(--taskbar-height)";
   menu.style.top = bar
     ? Math.max(0, Math.min(innerHeight - menu.offsetHeight - 6, button.getBoundingClientRect().bottom)) + "px"
     : "auto";
@@ -32,6 +32,34 @@ document.addEventListener("keydown", (event) => {
     opener.focus();
   }
 });
+const appWindow = $(".window");
+const taskButton = $(".task");
+const maximizeButton = $(".maximize");
+
+function showWindow(show) {
+  appWindow.hidden = !show;
+  taskButton.setAttribute("aria-expanded", String(show));
+  (show ? $(".minimize") : taskButton).focus({ preventScroll: true });
+}
+$(".minimize").addEventListener("click", () => showWindow(false));
+taskButton.addEventListener("click", () => showWindow(appWindow.hidden));
+$(".skip").addEventListener("click", () => { if (appWindow.hidden) showWindow(true); });
+maximizeButton.addEventListener("click", () => {
+  const expanded = appWindow.classList.toggle("is-maximized");
+  maximizeButton.setAttribute("aria-pressed", String(expanded));
+  const label = expanded ? "还原窗口" : "最大化窗口";
+  maximizeButton.setAttribute("aria-label", label);
+  maximizeButton.title = label;
+});
+menu.addEventListener("keydown", (event) => {
+  const links = [...menu.querySelectorAll("a")];
+  const index = links.indexOf(document.activeElement);
+  const next = { ArrowDown: index + 1, ArrowUp: index - 1, Home: 0, End: links.length - 1 }[event.key];
+  if (next === undefined) return;
+  event.preventDefault();
+  links[(next + links.length) % links.length].focus();
+});
+
 function clock() {
   $("#clock").textContent = new Date().toLocaleTimeString("zh-CN", {
     hour: "2-digit",
@@ -155,6 +183,44 @@ $("#glaze")?.addEventListener("change", (event) => {
   $("#test-glazes").hidden = !event.target.checked;
 });
 
+const audioPlayer = $("audio");
+if (audioPlayer) {
+  const play = $("#playback");
+  const seek = $("#seek");
+  const volume = $("#volume");
+  const mute = $("#mute");
+  function updateTransport() {
+    const seconds = Math.floor(audioPlayer.currentTime);
+    const elapsed = Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
+    $("#elapsed").textContent = elapsed;
+    seek.max = Number.isFinite(audioPlayer.duration) ? audioPlayer.duration : 0;
+    seek.disabled = Number(seek.max) === 0;
+    seek.value = audioPlayer.currentTime;
+    seek.setAttribute("aria-valuetext", elapsed);
+    play.textContent = audioPlayer.paused ? "播放" : "暂停";
+    mute.setAttribute("aria-pressed", String(audioPlayer.muted));
+    volume.value = audioPlayer.volume;
+  }
+  play.addEventListener("click", () => {
+    if (audioPlayer.paused) audioPlayer.play().catch(updateTransport);
+    else audioPlayer.pause();
+  });
+  seek.addEventListener("input", () => { audioPlayer.currentTime = Number(seek.value); });
+  mute.addEventListener("click", () => { audioPlayer.muted = !audioPlayer.muted; });
+  volume.addEventListener("input", () => {
+    audioPlayer.volume = Number(volume.value);
+    audioPlayer.muted = false;
+  });
+  $("#rate").addEventListener("change", (event) => {
+    audioPlayer.defaultPlaybackRate = audioPlayer.playbackRate = parseFloat(event.target.value);
+  });
+  for (const name of ["timeupdate", "play", "pause", "ended", "volumechange", "durationchange", "emptied"])
+    audioPlayer.addEventListener(name, updateTransport);
+  updateTransport();
+  audioPlayer.controls = false;
+  $(".transport").hidden = false;
+}
+
 const tracks = all(".track");
 tracks.forEach((button, index) =>
   button.addEventListener("click", () => {
@@ -175,7 +241,7 @@ tracks.forEach((button, index) =>
     audio.src = "assets/track" + (index + 1) + ".mp3";
     if (playing)
       audio.play().catch(() => {
-        /* Native controls remain available. */
+        /* The play button allows a user-initiated retry. */
       });
   }),
 );

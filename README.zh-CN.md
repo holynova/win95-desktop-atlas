@@ -15,6 +15,8 @@
 
 海报和杂志使用同一组印样，邮票目录与时间线使用同一枚海岸邮票。可以从页面菜单直接切换这两组案例，在每个示例底部展开版式笔记。
 
+界面文字使用本地托管的 12 像素融合像素字体简中比例版，菜单、标题栏和控件共享一套字形。杂志、长文和海报分别使用各自的排印。字体来自 [Fusion Pixel Font](https://github.com/TakWolf/fusion-pixel-font)，字形子集和上游许可位于 [dist/assets/fonts](dist/assets/fonts/)。
+
 ## 本地运行
 
 使用 Node.js 做检查，使用 Python 3 启动预览。应用无需安装依赖。

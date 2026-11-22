@@ -6,8 +6,8 @@
     <title>沿途邮局 · 卡片目录</title>
     <meta name="description" content="每张卡拥有独立图像、名称和票态，筛选后仍可单独阅读。" />
     <link rel="icon" href="assets/computer.png" />
-    <link rel="stylesheet" href="atlas-v2.css" />
-    <script defer src="atlas-v2.js"></script>
+    <link rel="stylesheet" href="atlas-2.1.css" />
+    <script defer src="atlas-2.1.js"></script>
     <script
       defer
       src="https://cloud.umami.is/script.js"
@@ -16,9 +16,10 @@
   </head>
   <body class="desk-post">
     <a class="skip" href="#content">跳至内容</a>
-    <main class="window">
+    <main class="window" id="app-window">
       <header class="titlebar">
-        <img src="assets/computer.png" alt="" class="pixel" /><b>沿途邮局 · 卡片目录</b><span>Atlas.exe</span>
+        <img src="assets/computer.png" alt="" class="pixel" /><b>沿途邮局 · 卡片目录</b><button type="button" class="caption-button minimize" aria-label="最小化窗口" title="最小化窗口"></button>
+        <button type="button" class="caption-button maximize" aria-pressed="false" aria-label="最大化窗口" title="最大化窗口"></button>
       </header>
       <nav class="menubar" aria-label="图鉴导航">
         <a href="index.html">版式总览</a
@@ -87,7 +88,7 @@
           </div>
         </dl>
       </details>
-      <div class="status"><span>图文混排　/　沿途邮局</span><span>v2.0.0</span></div>
+      <div class="status"><span>图文混排　/　沿途邮局</span><span>v2.1.0</span></div>
     </main>
     <nav id="switcher" aria-label="所有版式" hidden>
       <b>Windows 95 版式图鉴</b><a href="index.html">全部版式</a
@@ -105,7 +106,7 @@
     <footer class="taskbar">
       <button class="start" data-menu aria-expanded="false" aria-controls="switcher">
         <img src="assets/flag.png" alt="" class="pixel" />开始</button
-      ><a class="task" href="index.html"><img src="assets/folder.png" alt="" class="pixel" />卡片目录</a
+      ><button type="button" class="task" aria-controls="app-window" aria-expanded="true"><img src="assets/folder.png" alt="" class="pixel" />卡片目录</button
       ><span class="spacer"></span><a class="step" href="press.html">上一版</a
       ><a class="step" href="plan.html">下一版</a><time id="clock"></time>
     </footer>

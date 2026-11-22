@@ -15,6 +15,8 @@ Ten editorial and interface layouts share the window chrome of Windows 95. The i
 
 Compare the same printed material in the poster and magazine. Visit the stamp catalogue and its production timeline to see how a collection becomes a story. Each example includes layout notes.
 
+The desktop uses a self-hosted subset of the 12 px proportional Simplified Chinese [Fusion Pixel Font](https://github.com/TakWolf/fusion-pixel-font). The editorial studies retain their own typography. The subset and upstream licenses are in [dist/assets/fonts](dist/assets/fonts/).
+
 ## Run locally
 
 Requires Node.js for checks and Python 3 for the local server. No application dependencies.

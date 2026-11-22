@@ -1,11 +1,20 @@
+@font-face {
+  font-family: "Atlas Bitmap";
+  src: url("assets/fonts/fusion-ui-12.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
 :root {
-  --gray: #c6c7c1;
+  --gray: #c0c0c0;
+  --ui: "Atlas Bitmap", "MS Sans Serif", SimSun, sans-serif;
+  --taskbar-height: 30px;
   --paper: #f4f2e9;
   --ink: #161b17;
-  --navy: #060976;
+  --navy: #000080;
   --line: #777c73;
-  --raise: inset 1px 1px white, inset -1px -1px #20251f, inset 2px 2px #e5e5db, inset -2px -2px #85877f;
-  --inset: inset 1px 1px #85877f, inset -1px -1px white;
+  --raise: inset 1px 1px #fff, inset -1px -1px #000, inset 2px 2px #dfdfdf, inset -2px -2px #808080;
+  --inset: inset 1px 1px #808080, inset -1px -1px #fff;
   --mono: "Courier New", monospace;
   --serif: Georgia, "Songti SC", "Noto Serif CJK SC", serif;
 }
@@ -17,7 +26,7 @@ html {
 }
 body {
   margin: 0;
-  background: #087e7a;
+  background: #008080;
   color: var(--ink);
   font:
     16px/1.55 Arial,
@@ -60,8 +69,8 @@ summary:focus-visible,
 select:focus-visible,
 input:focus-visible,
 [tabindex="0"]:focus-visible {
-  outline: 3px solid #db680a;
-  outline-offset: 2px;
+  outline: 1px dotted currentColor;
+  outline-offset: -3px;
 }
 button[aria-pressed="true"] {
   box-shadow: var(--inset);
@@ -102,9 +111,7 @@ hr {
 dialog,
 #switcher {
   background: var(--gray);
-  box-shadow:
-    var(--raise),
-    3px 4px 0 #14393477;
+  box-shadow: var(--raise);
   padding: 3px;
 }
 .window {
@@ -121,22 +128,17 @@ dialog,
   align-items: center;
 }
 .titlebar {
-  min-height: 27px;
+  min-height: 20px;
   background: var(--navy);
   color: #fff;
   gap: 7px;
-  padding: 3px 7px;
-  font-size: 0.89rem;
+  padding: 2px 3px;
+  font-size: 12px;
   line-height: 1.4;
 }
-.titlebar span {
-  margin-left: auto;
-  font: 0.78rem var(--mono);
-  color: #dddeee;
-}
 .menubar {
-  gap: 7px;
-  min-height: 31px;
+  gap: 2px;
+  min-height: 22px;
   padding: 2px 5px;
   font-size: 0.87rem;
   flex-wrap: wrap;
@@ -150,11 +152,11 @@ dialog,
 }
 .menubar a:hover,
 .menubar button:hover {
-  text-decoration: underline;
+  background: var(--navy);
+  color: white;
 }
 .menubar .github {
   margin-left: auto;
-  font-family: var(--mono);
 }
 #content {
   background: var(--paper);
@@ -179,17 +181,17 @@ dialog,
   left: 0;
   right: 0;
   gap: 5px;
-  height: 42px;
+  height: var(--taskbar-height);
   background: var(--gray);
   border-top: 2px solid #f3f4ed;
-  padding: 4px 6px;
+  padding: 2px 3px;
   font-size: 0.88rem;
 }
 .start,
 .task,
 .step,
 #clock {
-  height: 30px;
+  height: calc(var(--taskbar-height) - 7px);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -221,7 +223,7 @@ dialog,
 #switcher {
   position: fixed;
   left: 6px;
-  bottom: 42px;
+  bottom: var(--taskbar-height);
   z-index: 8;
   min-width: min(320px, 96vw);
   max-height: 85dvh;
@@ -320,7 +322,7 @@ article details summary {
 }
 .atlas {
   padding: clamp(16px, 3vw, 42px);
-  background: #eae9de;
+  background: #fff;
 }
 .atlas-head {
   display: flex;
@@ -328,7 +330,7 @@ article details summary {
   align-items: center;
   min-height: 160px;
   gap: 20px;
-  border-bottom: 3px double #797d6e;
+  border-bottom: 2px groove #dfdfdf;
   padding-bottom: 22px;
 }
 .atlas-head h1 {
@@ -336,49 +338,14 @@ article details summary {
   letter-spacing: -0.08em;
   margin: 5px 0 10px;
 }
-.atlas-head h1 span {
-  color: #0b7260;
-}
 .atlas-head > div > p:last-child {
   color: #41493c;
 }
 .head-preview {
-  height: 100px;
-  width: 180px;
-  position: relative;
-  flex: none;
-  margin-right: 22px;
-}
-.head-preview i {
-  display: block;
-  position: absolute;
-  width: 106px;
-  height: 69px;
-  box-shadow:
-    var(--raise),
-    3px 3px #202926;
-  background-color: #c6c7bc;
-  background-image:
-    linear-gradient(#09077c, #09077c), repeating-linear-gradient(0deg, #928f7d 0 2px, transparent 2px 7px);
-  background-size:
-    96px 8px,
-    78px 33px;
-  background-position:
-    5px 4px,
-    12px 22px;
-  background-repeat: no-repeat;
-}
-.head-preview i:nth-child(2) {
-  top: 15px;
-  left: 32px;
-  background-image:
-    linear-gradient(#09077c, #09077c), repeating-linear-gradient(90deg, #62978b 0 20px, #d7dec9 20px 25px);
-}
-.head-preview i:last-child {
-  top: 30px;
-  left: 65px;
-  background-image:
-    linear-gradient(#08057c, #08057c), repeating-linear-gradient(135deg, #193b34 0 6px, #bcdb65 6px 12px);
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  margin-inline-end: 20px;
 }
 .atlas-tools {
   justify-content: space-between;
@@ -404,7 +371,7 @@ article details summary {
   text-decoration: none;
   min-width: 0;
   border: 1px solid #9fa293;
-  background: #f6f5eb;
+  background: #fff;
 }
 .atlas-card:hover {
   outline: 2px solid #1a5148;
@@ -472,9 +439,6 @@ article details summary {
 }
 .comparison th:first-child {
   min-width: 148px;
-}
-.desk-orbit {
-  background: #32604c;
 }
 .poster-page {
   padding: 18px;
@@ -558,9 +522,6 @@ article details summary {
 .proofs figcaption {
   font-size: 0.84rem;
 }
-.desk-field {
-  background: #657361;
-}
 .reading {
   display: grid;
   grid-template-columns: 200px minmax(0, 1fr);
@@ -620,9 +581,6 @@ article details summary {
   display: flex;
   gap: 8px;
   padding-top: 12px;
-}
-.desk-frame {
-  background: #394b4d;
 }
 .photo {
   background: #202222;
@@ -685,9 +643,6 @@ article details summary {
   font: 0.8rem/1.5 var(--mono);
   padding-top: 5px;
   color: #ddd5ba;
-}
-.desk-press {
-  background: #845b47;
 }
 .mag {
   padding: 24px clamp(20px, 4vw, 54px) 40px;
@@ -755,9 +710,6 @@ article details summary {
 .quote span {
   font-size: 0.8rem;
 }
-.desk-post {
-  background: #59796e;
-}
 .catalog,
 .matrix,
 .music {
@@ -822,9 +774,6 @@ article details summary {
   display: block;
   margin-top: 12px;
 }
-.desk-plan {
-  background: #3d747d;
-}
 .blueprint {
   background-color: #e5ece8;
   background-image:
@@ -868,9 +817,6 @@ article details summary {
 }
 .drawing-note b {
   flex: none;
-}
-.desk-kiln {
-  background: #826c58;
 }
 .matrix {
   background: #efe6d8;
@@ -917,9 +863,6 @@ article details summary {
 .matrix thead b {
   display: block;
   margin-top: 5px;
-}
-.desk-signal {
-  background: #565f72;
 }
 .music {
   background: #d7d8d1;
@@ -994,10 +937,7 @@ article details summary {
 }
 audio {
   width: 100%;
-  height: 42px;
-}
-.desk-log {
-  background: #756a57;
+  height: var(--taskbar-height);
 }
 .dispatch {
   display: grid;
@@ -1048,9 +988,6 @@ audio {
 .timeline article img {
   width: 166px;
   margin-top: 10px;
-}
-.desk-night {
-  background: #414f60;
 }
 .map {
   padding: 20px clamp(18px, 3vw, 36px);
@@ -1107,9 +1044,29 @@ audio {
   margin-left: auto;
   white-space: nowrap;
 }
-.legend input,
-.matrix input {
-  accent-color: #486e58;
+input[type="checkbox"] {
+  appearance: none;
+  vertical-align: -2px;
+  width: 13px;
+  height: 13px;
+  margin: 0 3px 0 0;
+  background: white;
+  box-shadow: var(--inset), inset 2px 2px #000, inset -2px -2px #dfdfdf;
+}
+input[type="checkbox"]:checked::before {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 3px;
+  margin: 3px;
+  border: solid black;
+  border-width: 0 0 2px 2px;
+  transform: rotate(-45deg);
+}
+label:has(input:focus-visible) { outline: 1px dotted currentColor; }
+@media (forced-colors: active) {
+  input[type="checkbox"] { appearance: auto; }
+  input[type="checkbox"]::before { display: none; }
 }
 dialog {
   width: min(680px, 92vw);
@@ -1118,7 +1075,7 @@ dialog {
   overflow: auto;
 }
 dialog::backdrop {
-  background: #09202099;
+  background: transparent;
 }
 dialog .titlebar {
   justify-content: space-between;
@@ -1176,9 +1133,7 @@ dialog .titlebar button {
   .menubar button {
     font-size: 0.79rem;
   }
-  .titlebar span {
-    font-size: 0.7rem;
-  }
+
   .atlas {
     padding: 14px;
   }
@@ -1187,12 +1142,12 @@ dialog .titlebar button {
     padding-bottom: 15px;
   }
   .head-preview {
-    display: none;
-  }
-  .atlas-head h1 {
-    font-size: 3.4rem;
-  }
-  .atlas-tools {
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  margin-inline-end: 20px;
+}
+.atlas-tools {
     align-items: flex-start;
   }
   .filters {
@@ -1434,4 +1389,108 @@ dialog .titlebar button {
   .comparison table {
     min-width: 630px;
   }
+}
+
+/* Desktop furniture uses a 12 px bitmap grid, also when embedded in a document. */
+.titlebar, .menubar, .menubar :is(a, button), .status, .taskbar, #clock,
+#switcher > :is(b, a), #switcher small, .filters button, .view-switch,
+.study-guide summary, select, .lib-head, .catalog-results, #change-stamp,
+.matrix-controls label, .legend label, .blueprint label, .map label {
+  font: 12px/16px var(--ui);
+}
+.titlebar, .menubar, .status, .taskbar, #switcher { color: #000; }
+.titlebar { color: #fff; }
+.titlebar b { flex: 1; }
+.titlebar .pixel, .taskbar .pixel { width: 16px; height: 16px; }
+.menubar [aria-expanded="true"], #switcher a:focus { background: var(--navy); color: white; }
+.task[aria-expanded="true"] {
+  background: repeating-conic-gradient(#dfdfdf 0 25%, #c0c0c0 0 50%) 0 0 / 2px 2px;
+  font-weight: bold;
+}
+.task[aria-expanded="false"] { box-shadow: var(--raise); background: var(--gray); }
+.start[aria-expanded="true"], .filters button[aria-pressed="true"],
+.view-switch[aria-pressed="true"], button:active:not(.track,.zoom,.stamp-card,.pin),
+.step:active {
+  background: var(--gray);
+  box-shadow: var(--inset), inset 2px 2px #000;
+  color: #000;
+}
+.window.is-maximized { width: 100%; margin: 0 0 var(--taskbar-height); min-height: calc(100dvh - var(--taskbar-height)); }
+.window:has(~ dialog[open]) > .titlebar { background: #808080; color: #dfdfdf; }
+.caption-button, dialog .titlebar button {
+  width: 18px;
+  height: 16px;
+  padding: 0;
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: #000;
+  position: relative;
+}
+.caption-button + .caption-button { margin-left: -6px; }
+.caption-button::before { content: ""; display: block; }
+.minimize::before { width: 7px; height: 2px; background: #000; margin: 6px 3px 0 0; }
+.maximize::before { width: 9px; height: 7px; border: 1px solid; border-top-width: 2px; }
+.maximize[aria-pressed="true"]::before { width: 6px; height: 5px; box-shadow: 2px -2px #c0c0c0, 3px -3px #000; }
+#close { font: bold 14px/1 Arial, sans-serif; }
+#change-stamp { min-height: 24px; }
+.status span { padding: 1px 5px; }
+.atlas-head h1 { font: normal 48px/1.25 var(--ui); letter-spacing: 0; margin: 4px 0; }
+.atlas-head .rubric, .card-data h2 { font: normal 24px/1.25 var(--ui); letter-spacing: 0; }
+.atlas-head .rubric { font-size: 12px; }
+.mini { background: var(--gray); }
+.atlas-card:hover, .atlas-card:focus-visible { outline: 1px dotted var(--navy); outline-offset: 2px; }
+.atlas-card:is(:hover,:focus-visible) h2 { background: var(--navy); color: white; }
+.atlas-card h2 { width: fit-content; }
+.zoom:focus-visible { outline: 2px dotted white; outline-offset: -3px; box-shadow: 0 0 0 2px #000; }
+.track[aria-pressed="true"] { background: var(--navy); }
+@media (pointer: coarse) {
+  :root { --taskbar-height: 40px; }
+  .menubar :is(a,button), .filters button, .view-switch, select { min-height: 32px; align-content: center; }
+  .caption-button, dialog .titlebar button { width: 30px; height: 28px; }
+}
+@media (max-width: 620px) {
+  .atlas-head h1 { font-size: 36px; }
+  .card-data h2 { font-size: 12px; font-weight: bold; }
+  .titlebar { gap: 4px; }
+  .caption-button + .caption-button { margin-left: -3px; }
+}
+.transport {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 5px;
+  background: var(--gray);
+  color: black;
+  box-shadow: var(--raise);
+  font: 12px/16px var(--ui);
+}
+.transport button { min-height: 23px; padding: 2px 8px; }
+.transport time { padding: 2px 4px; box-shadow: var(--inset); }
+.transport input { appearance: none; height: 16px; margin: 0; background: transparent; }
+#seek { flex: 1 1 65px; min-width: 50px; }
+#volume { width: 42px; }
+.transport input::-webkit-slider-runnable-track { height: 4px; box-shadow: var(--inset); }
+.transport input::-moz-range-track { height: 4px; box-shadow: var(--inset); }
+.transport input::-webkit-slider-thumb {
+  appearance: none; height: 13px; width: 9px; margin-top: -4px; border: 0; border-radius: 0; background: var(--gray); box-shadow: var(--raise);
+}
+.transport input::-moz-range-thumb {
+  height: 13px; width: 9px; border: 0; border-radius: 0; background: var(--gray); box-shadow: var(--raise);
+}
+select {
+  appearance: none;
+  border: 2px inset #dfdfdf;
+  padding: 2px 23px 2px 4px;
+  color: black;
+  background: linear-gradient(45deg, transparent 50%, #000 50%) right 9px center / 4px 4px no-repeat,
+    linear-gradient(135deg, #000 50%, transparent 50%) right 5px center / 4px 4px no-repeat,
+    linear-gradient(to left, #808080 1px, #c0c0c0 1px 15px, #fff 15px 16px, #808080 16px 17px, white 17px);
+  box-shadow: none;
+}
+@media (forced-colors: active) {
+  select, .transport input { appearance: auto; }
+  .caption-button { border: 1px solid ButtonText; }
+  .minimize::before { background: ButtonText; }
 }
