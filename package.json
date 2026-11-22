@@ -1,0 +1,9 @@
+{
+  "name": "win95-desktop-atlas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Eight interactive Windows 95 desktop portfolios",
+  "scripts": {
+    "check": "node --check dist/desktop.js && node --check dist/specimen.js && node scripts/check-pages.mjs"
+  }
+}

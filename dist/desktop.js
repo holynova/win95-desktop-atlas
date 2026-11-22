@@ -57,7 +57,7 @@ function showContact() {
 function act(action) {
   if (action === 'home' || action === 'works') showWindow(action);
   if (action === 'about') dialog('关于 — Readme.txt', '<h2>' + data.name + '</h2><p>' + data.about + '</p>');
-  if (action === 'services') dialog('服务 — Services.txt', '<h2>工作范围</h2><dl>' + data.services.map(([title,copy]) => '<dt>' + title + '</dt><dd>' + copy + '</dd>').join('') + '</dl>');
+  if (action === 'services') dialog(data.modes ? '操作 — Guide.txt' : '服务 — Services.txt', (data.modes ? '<h2>操作指南</h2><dl>' : '<h2>工作范围</h2><dl>') + data.services.map(([title,copy]) => '<dt>' + title + '</dt><dd>' + copy + '</dd>').join('') + '</dl>');
   if (action === 'contact') showContact();
   if (action === 'firstsong') {
     if (currentTrack === 0 && !audio.paused) audio.pause();
